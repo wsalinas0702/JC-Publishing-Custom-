@@ -1,4 +1,9 @@
-(() => {
+window.addEventListener("DOMContentLoaded", () => {
+  if (typeof THREE === "undefined") {
+    console.error("Three.js failed to load");
+    return;
+  }
+
   const canvas = document.getElementById("bg");
   const renderer = new THREE.WebGLRenderer({
     canvas,
@@ -145,4 +150,4 @@
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
-})();
+});
