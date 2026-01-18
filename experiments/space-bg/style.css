@@ -11,16 +11,6 @@ html, body {
     radial-gradient(1400px 1000px at 60% 70%, rgba(0,0,0,0.85), rgba(0,0,0,1) 75%);
 }
 
-/* Subtle vignette for cinematic banner framing */
-body::after {
-  content: "";
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 2;
-  background: radial-gradient(120% 120% at 50% 45%, transparent 35%, rgba(0,0,0,0.65) 80%);
-}
-
 #bg {
   position: fixed;
   inset: 0;
