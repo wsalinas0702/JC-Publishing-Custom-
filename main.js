@@ -1,8 +1,18 @@
 window.addEventListener("DOMContentLoaded", () => {
-  if (typeof THREE === "undefined") {
-    console.error("Three.js failed to load");
-    return;
-  }
+  // Wait for Three.js to load with retries
+  let attempts = 0;
+  const maxAttempts = 50;
+  
+  const checkThreeJS = () => {
+    attempts++;
+    if (typeof THREE === "undefined") {
+      if (attempts < maxAttempts) {
+        setTimeout(checkThreeJS, 100);
+      } else {
+        console.error("Three.js failed to load after multiple attempts");
+      }
+      return;
+    }
 
   const canvas = document.getElementById("bg");
   const renderer = new THREE.WebGLRenderer({
@@ -150,4 +160,7 @@ window.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
+  };
+
+  checkThreeJS();
 });
