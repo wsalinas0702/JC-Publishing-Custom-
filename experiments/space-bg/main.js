@@ -1,28 +1,29 @@
 (() => {
   const canvas = document.getElementById("bg");
   
+  // Ensure canvas is visible by default
+  canvas.style.display = "block";
+  
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: false,
-      alpha: true,
+      alpha: false,
       powerPreference: "low-power",
       failIfMajorPerformanceCaveat: false,
       stencil: false,
       depth: true
     });
+    
+    // Verify renderer was created
+    if (!renderer || !renderer.domElement) {
+      throw new Error("Renderer creation failed");
+    }
+    
   } catch (e) {
-    console.error("WebGL initialization failed:", e);
+    console.error("WebGL failed, using gradient fallback:", e);
     canvas.style.display = "none";
-    document.body.style.background = "radial-gradient(1100px 700px at 75% 55%, rgba(124, 58, 237, 0.28), transparent 60%), radial-gradient(900px 650px at 40% 55%, rgba(34, 197, 94, 0.18), transparent 62%), radial-gradient(1200px 900px at 30% 30%, rgba(17, 24, 39, 0.65), rgba(0,0,0,1) 70%), radial-gradient(1400px 1000px at 60% 70%, rgba(0,0,0,0.85), rgba(0,0,0,1) 75%)";
-    return;
-  }
-  
-  if (!renderer) {
-    console.error("Renderer is null");
-    canvas.style.display = "none";
-    document.body.style.background = "radial-gradient(1100px 700px at 75% 55%, rgba(124, 58, 237, 0.28), transparent 60%), radial-gradient(900px 650px at 40% 55%, rgba(34, 197, 94, 0.18), transparent 62%), radial-gradient(1200px 900px at 30% 30%, rgba(17, 24, 39, 0.65), rgba(0,0,0,1) 70%), radial-gradient(1400px 1000px at 60% 70%, rgba(0,0,0,0.85), rgba(0,0,0,1) 75%)";
     return;
   }
   
