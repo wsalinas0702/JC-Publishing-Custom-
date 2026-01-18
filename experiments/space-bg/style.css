@@ -18,4 +18,5 @@ html, body {
   height: 100%;
   display: block;
   z-index: 0;
+  background: transparent;
 }

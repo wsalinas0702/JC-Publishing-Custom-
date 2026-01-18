@@ -12,7 +12,6 @@
     });
   } catch (e) {
     console.error("WebGL failed:", e);
-    document.body.style.background = "#000";
     return;
   }
   
