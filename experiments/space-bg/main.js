@@ -1,55 +1,22 @@
 (() => {
-  console.log("Starting cosmic background initialization...");
-  
   const canvas = document.getElementById("bg");
-  console.log("Canvas element:", canvas);
-  
-  if (!canvas) {
-    console.error("Canvas element not found!");
-    return;
-  }
-  
-  // Ensure canvas is visible by default
-  canvas.style.display = "block";
-  console.log("Canvas displayed");
-  
-  // Check if THREE is available
-  if (typeof THREE === "undefined") {
-    console.error("THREE.js not loaded!");
-    canvas.style.display = "none";
-    return;
-  }
-  
-  console.log("THREE.js available, version:", THREE.REVISION);
   
   let renderer;
   try {
     renderer = new THREE.WebGLRenderer({
       canvas,
       antialias: false,
-      alpha: false,
+      alpha: true,
       powerPreference: "low-power",
-      failIfMajorPerformanceCaveat: false,
-      stencil: false,
-      depth: true
+      failIfMajorPerformanceCaveat: false
     });
-    
-    console.log("WebGLRenderer created successfully");
-    
-    // Verify renderer was created
-    if (!renderer || !renderer.domElement) {
-      throw new Error("Renderer creation failed - no domElement");
-    }
-    
   } catch (e) {
-    console.error("WebGL initialization failed:", e.message, e.stack);
-    canvas.style.display = "none";
+    console.error("WebGL failed:", e);
+    document.body.style.background = "#000";
     return;
   }
   
-  console.log("Renderer setup complete");
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
-  renderer.setClearColor(0x05040a, 1);
 
   const scene = new THREE.Scene();
 
