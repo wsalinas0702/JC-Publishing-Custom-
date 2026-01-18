@@ -1,12 +1,22 @@
 (() => {
   const canvas = document.getElementById("bg");
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: true,
-    alpha: true,
-    powerPreference: "high-performance"
-  });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  let renderer;
+  try {
+    renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: false,
+      alpha: true,
+      powerPreference: "low-power",
+      failIfMajorPerformanceCaveat: false
+    });
+  } catch (e) {
+    console.error("WebGL failed:", e);
+    document.body.style.background = "#000";
+    return;
+  }
+  
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
   const scene = new THREE.Scene();
 
@@ -14,8 +24,8 @@
   camera.position.z = 140;
 
   const reduceMotion = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches ?? false;
-  const isMobile = /Mobi|Android/i.test(navigator.userAgent);
-  const STAR_COUNT = reduceMotion ? 1200 : (isMobile ? 2200 : 5200);
+  const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+  const STAR_COUNT = reduceMotion ? 800 : (isMobile ? 1200 : 5200);
 
   const starGeo = new THREE.BufferGeometry();
   const positions = new Float32Array(STAR_COUNT * 3);
@@ -120,9 +130,12 @@
   }, { passive: true });
 
   function resize() {
-    renderer.setSize(window.innerWidth, window.innerHeight, false);
-    camera.aspect = window.innerWidth / window.innerHeight;
+    const w = window.innerWidth || 1;
+    const h = window.innerHeight || 1;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    canvas.style.display = "block";
   }
   window.addEventListener("resize", resize);
   resize();
